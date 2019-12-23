@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
     "programmer": "AVRISP mkII",
-    "sketch": "testy_adafruit_5110_diplay.ino",
+    "sketch": "GONG.ino",
     "port": "/dev/ttyACM0"
 }
