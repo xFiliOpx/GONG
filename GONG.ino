@@ -39,11 +39,30 @@ void ballPosition(){
   x += sx;
 }
 
+void p1(){
+  p1y = analogRead(A1);
+  p1y = map(p1y, 0, 1024, 4, lcd.height()+6);
+
+  p1x = analogRead(A2);
+  p1x = map(p1x, 0, 1024, 0, lcd.width()/2);
+
+  lcd.drawLine(p1x, p1y+4, p1x, p1y-4, BLACK);
+}
+
 void end(){
   lcd.clearDisplay();
+  lcd.setCursor(0, 0);
   lcd.print("wynik:");
   lcd.print(pts);
 }
+
+void fps(){
+  if (millis() - czas >= 1000/30){
+  czas = millis();
+  ballPosition();
+  }
+}
+
 
 void setup() {
   lcd.begin();
@@ -51,28 +70,17 @@ void setup() {
 }
 
 void loop() {
+  lcd.clearDisplay();
 
-  p1x = analogRead(A2);
-  p1x = map(p1x, 0, 1024, 0, lcd.width()/2);
+  p1();
 
-  
+  fps();
 
-  while (millis() - czas >= 1000/30){
-    czas = millis();
-    lcd.clearDisplay();
-
-    p1y = analogRead(A1);
-    p1y = map(p1y, 0, 1024, 4, lcd.height()+6);
-
-    ballPosition();
-  }
-
-  lcd.drawLine(p1x, p1y+4, p1x, p1y-4, BLACK);
   lcd.drawLine(lcd.width()-1, 0, lcd.width()-1, lcd.height()-1, BLACK);
 
   drawBall();
 
-  if (x < 0){
+  if (x < 0 || lcd.width() < x){
     end();
   }
 
